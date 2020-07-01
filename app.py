@@ -1,14 +1,43 @@
+# Imports
+import math
 from PIL import Image
 import numpy
 from matplotlib import pyplot
 import mplcursors
 from threading import Timer
+from pathfinding.finder.finder import Finder
 from pathfinding.core.grid import Grid
 from pathfinding.finder.a_star import AStarFinder
 from pathfinding.core.diagonal_movement import DiagonalMovement
 
+
+# Constants
 DEFAULT_IMAGE = 'images/1.png'
 TIMEOUT_DURATION = 3.0
+
+
+# Initializations
+def calc_cost(self, node_a, node_b):
+    """
+    Get the cost (absolute value of difference in height) between current node and its neighbor node
+    """
+    if node_b.x - node_a.x == 0 or node_b.y - node_a.y == 0:
+        # Direct neighbor => Difference is 1
+        ng = 1
+    else:
+        # Not direct neighbor => Diagonal movement
+        ng = math.sqrt(2)
+
+    # Weight for weighted algorithms
+    if self.weighted:
+        # Calculate absolute value of difference in weight (height) between current node and its neighbor node
+        ng *= abs(node_a.weight - node_b.weight)
+
+    return node_a.g + ng
+
+
+# Monkey patch my variant of calc_cost method to pathfinding Finder class
+Finder.calc_cost = calc_cost
 
 
 def main():
@@ -20,6 +49,7 @@ def main():
     find_optimal_path(img, coords)
 
 
+# Utilities
 def image():
     # Prompt user for image file path
     path = input('Please enter image file path (or press enter for default): ')
