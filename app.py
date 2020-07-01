@@ -1,3 +1,4 @@
+# Imports
 from PIL import Image
 import numpy
 from matplotlib import pyplot
@@ -7,10 +8,13 @@ from pathfinding.core.grid import Grid
 from pathfinding.finder.a_star import AStarFinder
 from pathfinding.core.diagonal_movement import DiagonalMovement
 
+
+# Constants
 DEFAULT_IMAGE = 'images/1.png'
 TIMEOUT_DURATION = 3.0
 
 
+# Initializations
 def main():
     # Create image from image file path
     img = image()
@@ -20,6 +24,7 @@ def main():
     find_optimal_path(img, coords)
 
 
+# Utilities
 def image():
     # Prompt user for image file path
     path = input('Please enter image file path (or press enter for default): ')
